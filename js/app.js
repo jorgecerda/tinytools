@@ -1,4 +1,4 @@
-// Main app controller for tiiny tools
+// Main app controller for tiinytools
 
 // Registry of tools
 const TOOLS_REGISTRY = {
@@ -118,7 +118,7 @@ async function handleRoute() {
         toolView.style.display = 'none';
         homeView.style.display = 'block';
         document.getElementById('nav-home').classList.add('active');
-        document.title = 'tiiny tools | Premium Developer & Document Utilities';
+        document.title = 'tiinytools | Premium Developer & Document Utilities';
     } else {
         // Load Selected Tool
         homeView.style.display = 'none';
@@ -127,7 +127,7 @@ async function handleRoute() {
         const toolMeta = TOOLS_REGISTRY[toolId];
         document.getElementById('toolTitle').textContent = toolMeta.title;
         document.getElementById('toolDescription').textContent = toolMeta.description;
-        document.title = `${toolMeta.title} - tiiny tools`;
+        document.title = `${toolMeta.title} - tiinytools`;
 
         toolContainer.innerHTML = `
             <div class="tool-loader">

@@ -249,7 +249,7 @@ export default {
                 }
 
                 const mergedPdfBytes = await mergedPdf.save();
-                this.downloadBlob(mergedPdfBytes, 'tiiny-merged.pdf');
+                this.downloadBlob(mergedPdfBytes, 'tiinytools-merged.pdf');
             } catch (error) {
                 console.error("PDF Merge failed:", error);
                 alert(`PDF Merge failed: ${error.message}`);

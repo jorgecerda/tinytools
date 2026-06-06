@@ -62,7 +62,7 @@ exports.handler = async (event) => {
                         archive_multiple_files: false,
                     },
                 },
-                tag: 'tiiny-tools',
+                tag: 'tiinytools',
             }),
         });
 
