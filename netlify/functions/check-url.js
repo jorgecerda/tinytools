@@ -87,7 +87,7 @@ exports.handler = async (event) => {
 
             // Extract response headers
             const resHeaders = {};
-            const headersToKeep = ['location', 'server', 'content-type', 'cache-control', 'x-redirect-by', 'content-length'];
+            const headersToKeep = ['location', 'server', 'content-type', 'cache-control', 'x-redirect-by', 'content-length', 'content-security-policy', 'content-security-policy-report-only'];
             headersToKeep.forEach(h => {
                 const val = res.headers.get(h);
                 if (val) resHeaders[h] = val;

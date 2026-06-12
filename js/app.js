@@ -41,6 +41,11 @@ const TOOLS_REGISTRY = {
         title: 'UTM Build & Verify',
         description: 'Create or parse tagged URLs, verify required and optional campaign parameters, and preview GA4 channel classifications.',
         modulePath: './tools/utm-builder.js'
+    },
+    'csp-build-combine-verify': {
+        title: 'CSP Build, Combine & Verify',
+        description: 'Create Content Security Policies, combine multiple policies into one, or audit existing CSP headers and URLs for vulnerabilities.',
+        modulePath: './tools/csp-tool.js'
     }
 };
 

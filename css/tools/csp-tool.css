@@ -1,0 +1,411 @@
+/* CSP Build, Merge & Verify Custom Styles */
+
+.csp-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.csp-tabs {
+  display: flex;
+  gap: 12px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1px;
+}
+
+.csp-tab-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 12px 18px;
+  cursor: pointer;
+  border-radius: 8px 8px 0 0;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  margin-bottom: -1px;
+}
+
+.csp-tab-btn:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-card-hover);
+}
+
+.csp-tab-btn.active {
+  color: var(--primary);
+  border: 1px solid var(--border-color);
+  border-bottom-color: var(--bg-primary);
+  background-color: var(--bg-primary);
+}
+
+.csp-tab-panel {
+  display: none;
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.csp-tab-panel.active {
+  display: block;
+}
+
+.csp-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 992px) {
+  .csp-layout-grid {
+    grid-template-columns: 1.15fr 0.85fr;
+  }
+}
+
+.csp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.csp-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.csp-form-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.csp-checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.csp-checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: var(--text-primary);
+}
+
+.csp-presets-section {
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 8px;
+}
+
+.csp-presets-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.csp-presets-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.csp-preset-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.csp-preset-btn:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+  border-color: var(--primary);
+}
+
+.csp-preset-btn.active {
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.csp-output-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.csp-display {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.825rem;
+  word-break: break-all;
+  color: var(--text-primary);
+  min-height: 80px;
+  max-height: 200px;
+  overflow-y: auto;
+  line-height: 1.5;
+}
+
+.csp-input-group {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.csp-input-group input {
+  flex: 1;
+}
+
+/* Verify styles */
+.csp-verify-results {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.csp-grade-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  padding: 16px;
+  border-radius: 10px;
+}
+
+.csp-grade-badge {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.csp-grade-badge.grade-strong {
+  background: linear-gradient(135deg, #107c41, #13a152);
+  box-shadow: 0 4px 12px rgba(16, 124, 65, 0.3);
+}
+
+.csp-grade-badge.grade-moderate {
+  background: linear-gradient(135deg, #dca000, #ffc800);
+  box-shadow: 0 4px 12px rgba(220, 160, 0, 0.3);
+}
+
+.csp-grade-badge.grade-weak {
+  background: linear-gradient(135deg, #a80000, #e81123);
+  box-shadow: 0 4px 12px rgba(168, 0, 0, 0.3);
+}
+
+.csp-grade-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.csp-grade-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.csp-grade-desc {
+  font-size: 0.825rem;
+  color: var(--text-secondary);
+}
+
+.csp-table-container {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.csp-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.csp-table th, .csp-table td {
+  padding: 12px;
+  text-align: left;
+  font-size: 0.85rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.csp-table th {
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.csp-table td.csp-directive-name {
+  font-weight: 600;
+  color: var(--primary);
+  width: 25%;
+  font-family: 'Geist Mono', monospace;
+}
+
+.csp-table td.csp-directive-values {
+  word-break: break-all;
+  color: var(--text-secondary);
+}
+
+.csp-table tr:last-child td {
+  border-bottom: none;
+}
+
+.csp-badge-item {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin: 2px 4px 2px 0;
+  font-size: 0.8rem;
+  font-family: 'Geist Mono', monospace;
+  color: var(--text-primary);
+}
+
+.csp-badge-item.csp-keyword {
+  color: var(--warning);
+}
+
+.csp-badge-item.csp-unsafe {
+  color: var(--danger);
+  background: rgba(232, 17, 35, 0.05);
+  border-color: rgba(232, 17, 35, 0.2);
+}
+
+.csp-badge-item.csp-safe {
+  color: var(--success);
+  background: rgba(16, 124, 65, 0.05);
+  border-color: rgba(16, 124, 65, 0.2);
+}
+
+.csp-audit-warnings {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.csp-audit-warning-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  border: 1px solid transparent;
+}
+
+.csp-audit-warning-item.severity-info {
+  background-color: rgba(99, 102, 241, 0.05);
+  color: var(--text-primary);
+  border-color: rgba(99, 102, 241, 0.15);
+}
+
+.csp-audit-warning-item.severity-warning {
+  background-color: rgba(220, 160, 0, 0.05);
+  color: var(--warning);
+  border-color: rgba(220, 160, 0, 0.15);
+}
+
+.csp-audit-warning-item.severity-critical {
+  background-color: rgba(168, 0, 0, 0.05);
+  color: var(--danger);
+  border-color: rgba(168, 0, 0, 0.15);
+}
+
+.csp-audit-icon {
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* Merge layouts */
+.csp-merge-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .csp-merge-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.csp-merge-textarea {
+  min-height: 120px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.825rem;
+  line-height: 1.5;
+}
+
+.csp-merge-actions {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.csp-merge-breakdown {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.csp-merge-log-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+}
+
+.csp-merge-log-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.csp-merge-log-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.csp-merge-log-icon {
+  color: var(--success);
+}
