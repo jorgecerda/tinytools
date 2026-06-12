@@ -811,3 +811,36 @@ body {
         padding: 20px;
     }
 }
+
+/* Copy link button next to titles */
+.btn-copy-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 0;
+}
+
+.btn-copy-link:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--border-color-hover);
+    color: var(--text-primary);
+    transform: scale(1.05);
+}
+
+.btn-copy-link:active {
+    transform: scale(0.95);
+}
+
+.btn-copy-link.copied {
+    background: rgba(16, 124, 65, 0.15);
+    border-color: var(--success);
+    color: var(--success);
+}

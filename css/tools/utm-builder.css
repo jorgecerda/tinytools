@@ -1,0 +1,227 @@
+/* UTM Builder & Verify Custom Styles */
+
+.utm-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.utm-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 992px) {
+  .utm-layout-grid {
+    grid-template-columns: 1.1fr 0.9fr;
+  }
+}
+
+.utm-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.utm-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.utm-form-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.utm-form-label .required-star {
+  color: var(--danger);
+  margin-left: 2px;
+}
+
+.utm-form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 576px) {
+  .utm-form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.utm-output-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.utm-link-display {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.85rem;
+  word-break: break-all;
+  color: var(--text-primary);
+  min-height: 48px;
+}
+
+.ga4-badge-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(99, 102, 241, 0.05);
+  border: 1px solid rgba(99, 102, 241, 0.15);
+  padding: 16px;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+.ga4-badge {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background-color: var(--primary);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.ga4-channel-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Verification indicators styling */
+.utm-verify-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.utm-verify-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.875rem;
+}
+
+.utm-verify-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.utm-verify-status.status-valid {
+  background-color: rgba(16, 124, 65, 0.1);
+  color: var(--success);
+  border: 1px solid rgba(16, 124, 65, 0.2);
+}
+
+.utm-verify-status.status-warning {
+  background-color: rgba(220, 160, 0, 0.1);
+  color: var(--warning);
+  border: 1px solid rgba(220, 160, 0, 0.2);
+}
+
+.utm-verify-status.status-optional {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+}
+
+.qr-preview-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+  padding: 16px;
+  background-color: rgba(255, 255, 255, 0.01);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.qr-code-img {
+  width: 150px;
+  height: 150px;
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* Tabs for UTM Tool */
+.utm-tabs {
+  display: flex;
+  gap: 12px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1px;
+}
+
+.utm-tab-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 12px 18px;
+  cursor: pointer;
+  border-radius: 8px 8px 0 0;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  margin-bottom: -1px;
+}
+
+.utm-tab-btn:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-card-hover);
+}
+
+.utm-tab-btn.active {
+  color: var(--primary);
+  border: 1px solid var(--border-color);
+  border-bottom-color: var(--bg-primary);
+  background-color: var(--bg-primary);
+}
+
+.utm-tab-panel {
+  display: none;
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.utm-tab-panel.active {
+  display: block;
+}
+
+/* Inline Output Group Styles */
+.utm-input-group {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.utm-input-group input {
+  flex: 1;
+}
+
+/* Invalid Input Style */
+.input-premium.input-invalid {
+  border-color: var(--danger) !important;
+  box-shadow: 0 0 0 2px var(--danger-light) !important;
+}

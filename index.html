@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="css/tools/pdftools.css">
     <link rel="stylesheet" href="css/tools/bulk-status.css">
     <link rel="stylesheet" href="css/tools/redirect-checker.css">
+    <link rel="stylesheet" href="css/tools/json-to-csv.css">
+    <link rel="stylesheet" href="css/tools/utm-builder.css">
 </head>
 <body>
     <div class="app-container">
@@ -87,6 +89,18 @@
                             <span>URL Redirect Checker</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="#json-to-csv" class="nav-item" id="nav-json-to-csv">
+                            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M8 13h8M8 17h8"></path></svg>
+                            <span>JSON to CSV</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#utm-build-verify" class="nav-item" id="nav-utm-build-verify">
+                            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                            <span>UTM Build &amp; Verify</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
 
@@ -128,7 +142,12 @@
                 <!-- Dashboard Home (default view) -->
                 <div id="home-view" class="view-panel active">
                     <div class="view-header">
-                        <h1 class="view-title">All Tools</h1>
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                            <h1 class="view-title" style="margin-bottom: 0;">All Tools</h1>
+                            <button class="btn-copy-link" id="copyAllToolsLinkBtn" aria-label="Copy share link" title="Copy share link">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                            </button>
+                        </div>
                         <p class="view-subtitle">Fast, lightweight, secure, and completely private. All processing happens locally in your browser.</p>
                     </div>
 
@@ -147,6 +166,7 @@
                         <button class="filter-tag-btn" data-filter="text">TEXT</button>
                         <button class="filter-tag-btn" data-filter="dev">DEV</button>
                         <button class="filter-tag-btn" data-filter="seo">SEO</button>
+                        <button class="filter-tag-btn" data-filter="mkt">MKT</button>
                     </div>
 
                     <!-- Tools Grid -->
@@ -258,6 +278,42 @@
                                 </span>
                             </div>
                         </a>
+
+                        <!-- JSON to CSV Card -->
+                        <a href="#json-to-csv" class="tool-card" data-tags="json,csv,converter,excel,export,developer,dev">
+                            <div class="tool-card-icon network-color">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M8 13h8M8 17h8"></path></svg>
+                            </div>
+                            <div class="tool-card-content">
+                                <div class="tool-card-header">
+                                    <h3 class="tool-card-title">JSON to CSV Converter</h3>
+                                    <span class="tool-badge">[DEV]</span>
+                                </div>
+                                <p class="tool-card-desc">Convert JSON objects or arrays into formatted CSV format. Upload files, paste text, or fetch from URL to download as CSV.</p>
+                                <span class="tool-card-action">
+                                    <span>Launch Tool</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                </span>
+                            </div>
+                        </a>
+
+                        <!-- UTM Build & Verify Card -->
+                        <a href="#utm-build-verify" class="tool-card" data-tags="utm,marketing,seo,url,builder,verify,ga4,mkt">
+                            <div class="tool-card-icon math-color">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                            </div>
+                            <div class="tool-card-content">
+                                <div class="tool-card-header">
+                                    <h3 class="tool-card-title">UTM Build &amp; Verify</h3>
+                                    <span class="tool-badge">[MKT]</span>
+                                </div>
+                                <p class="tool-card-desc">Create or parse tagged URLs, verify required and optional campaign parameters, and preview GA4 channel classifications.</p>
+                                <span class="tool-card-action">
+                                    <span>Launch Tool</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                </span>
+                            </div>
+                        </a>
                     </div>
                 </div>
 
@@ -269,7 +325,12 @@
                             <span>Back to All Tools</span>
                         </button>
                         <div class="tool-meta">
-                            <h1 class="tool-title" id="toolTitle">Tool Title</h1>
+                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                                <h1 class="tool-title" id="toolTitle" style="margin-bottom: 0;">Tool Title</h1>
+                                <button class="btn-copy-link" id="copyToolLinkBtn" aria-label="Copy tool share link" title="Copy tool share link">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                                </button>
+                            </div>
                             <p class="tool-desc" id="toolDescription">Tool description goes here.</p>
                         </div>
                     </div>

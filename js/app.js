@@ -31,6 +31,16 @@ const TOOLS_REGISTRY = {
         title: 'URL Redirect Checker',
         description: 'Track the complete path a URL takes, identifying redirect chains, intermediate URLs, status codes, and headers.',
         modulePath: './tools/redirect-checker.js'
+    },
+    'json-to-csv': {
+        title: 'JSON to CSV Converter',
+        description: 'Convert JSON objects or arrays into formatted CSV format. Upload files, paste text, or fetch from URL to download as CSV.',
+        modulePath: './tools/json-to-csv.js'
+    },
+    'utm-build-verify': {
+        title: 'UTM Build & Verify',
+        description: 'Create or parse tagged URLs, verify required and optional campaign parameters, and preview GA4 channel classifications.',
+        modulePath: './tools/utm-builder.js'
     }
 };
 
@@ -42,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initSearch();
     initMobileNavigation();
     initGlowEffects();
+    initShareButtons();
 });
 
 // 1. Theme Management (Light / Dark mode)
@@ -181,6 +192,37 @@ function initSearch() {
     const toolCards = document.querySelectorAll('.tool-card');
     let activeFilterTag = 'all';
 
+    function initFilterTags() {
+        const filterContainer = document.getElementById('tagsFilterContainer');
+        if (!filterContainer) return;
+
+        const counts = {};
+        toolCards.forEach(card => {
+            const badge = card.querySelector('.tool-badge');
+            if (badge) {
+                const tag = badge.textContent.replace(/[\[\]]/g, '').trim().toUpperCase();
+                counts[tag] = (counts[tag] || 0) + 1;
+            }
+        });
+
+        // Sort tags: descending count, then alphabetical
+        const sortedTags = Object.keys(counts).sort((a, b) => {
+            if (counts[b] !== counts[a]) {
+                return counts[b] - counts[a];
+            }
+            return a.localeCompare(b);
+        });
+
+        let html = `<button class="filter-tag-btn active" data-filter="all">ALL</button>`;
+        sortedTags.forEach(tag => {
+            html += `<button class="filter-tag-btn" data-filter="${tag.toLowerCase()}">${tag}</button>`;
+        });
+
+        filterContainer.innerHTML = html;
+    }
+
+    initFilterTags();
+
     function applyFilters() {
         const query = (dashboardSearch?.value || sidebarSearch?.value || '').toLowerCase().trim();
         const tag = activeFilterTag.toLowerCase();
@@ -279,4 +321,34 @@ function initGlowEffects() {
             card.style.setProperty('--mouse-y', `${y}px`);
         });
     });
+}
+
+// 6. Share link buttons next to titles
+function initShareButtons() {
+    const copyAllBtn = document.getElementById('copyAllToolsLinkBtn');
+    const copyToolBtn = document.getElementById('copyToolLinkBtn');
+
+    if (copyAllBtn) {
+        copyAllBtn.addEventListener('click', () => {
+            const shareUrl = window.location.origin + window.location.pathname;
+            navigator.clipboard.writeText(shareUrl).then(() => {
+                copyAllBtn.classList.add('copied');
+                setTimeout(() => {
+                    copyAllBtn.classList.remove('copied');
+                }, 1500);
+            });
+        });
+    }
+
+    if (copyToolBtn) {
+        copyToolBtn.addEventListener('click', () => {
+            const shareUrl = window.location.href;
+            navigator.clipboard.writeText(shareUrl).then(() => {
+                copyToolBtn.classList.add('copied');
+                setTimeout(() => {
+                    copyToolBtn.classList.remove('copied');
+                }, 1500);
+            });
+        });
+    }
 }

@@ -1,9 +1,9 @@
 // Character Counter & Text Analyzer Tool Module
 
 export default {
-    id: 'text',
-    render(container) {
-        container.innerHTML = `
+  id: 'text',
+  render(container) {
+    container.innerHTML = `
             <div class="text-analyzer-layout">
                 <!-- Top Stat Ribbon -->
                 <div class="stats-ribbon">
@@ -124,224 +124,251 @@ export default {
             </div>
         `;
 
-        this.setupListeners();
-    },
+    this.setupListeners();
+  },
 
-    setupListeners() {
-        const textarea = document.getElementById('analyzer-input');
-        const statWords = document.getElementById('stat-words');
-        const statCharsSpace = document.getElementById('stat-chars-space');
-        const statCharsNoSpace = document.getElementById('stat-chars-nospace');
-        const statSentences = document.getElementById('stat-sentences');
+  setupListeners() {
+    const textarea = document.getElementById('analyzer-input');
+    const statWords = document.getElementById('stat-words');
+    const statCharsSpace = document.getElementById('stat-chars-space');
+    const statCharsNoSpace = document.getElementById('stat-chars-nospace');
+    const statSentences = document.getElementById('stat-sentences');
 
-        const timeReading = document.getElementById('time-reading');
-        const timeSpeaking = document.getElementById('time-speaking');
+    const timeReading = document.getElementById('time-reading');
+    const timeSpeaking = document.getElementById('time-speaking');
 
-        const barTwitter = document.getElementById('limit-bar-twitter');
-        const lblTwitter = document.getElementById('limit-lbl-twitter');
-        const barMeta = document.getElementById('limit-bar-meta');
-        const lblMeta = document.getElementById('limit-lbl-meta');
-        const barLinkedin = document.getElementById('limit-bar-linkedin');
-        const lblLinkedin = document.getElementById('limit-lbl-linkedin');
+    const barTwitter = document.getElementById('limit-bar-twitter');
+    const lblTwitter = document.getElementById('limit-lbl-twitter');
+    const barMeta = document.getElementById('limit-bar-meta');
+    const lblMeta = document.getElementById('limit-lbl-meta');
+    const barLinkedin = document.getElementById('limit-bar-linkedin');
+    const lblLinkedin = document.getElementById('limit-lbl-linkedin');
 
-        const densityList = document.getElementById('density-list');
+    const densityList = document.getElementById('density-list');
 
-        const updateStats = () => {
-            const text = textarea.value;
+    const updateStats = () => {
+      const text = textarea.value;
 
-            // Chars count
-            const charsWithSpace = text.length;
-            const charsNoSpace = text.replace(/\s/g, '').length;
+      // Chars count
+      const charsWithSpace = charCount(text, false);
+      const charsNoSpace = charCount(text, true);
 
-            // Word count
-            const cleanText = text.trim();
-            const words = cleanText === '' ? 0 : cleanText.split(/\s+/).length;
+      // Word count
+      const words = wordCount(text);
 
-            // Sentence count
-            // Sentences usually end with ., ! or ?
-            const sentences = cleanText === '' ? 0 : (text.match(/[.!?]+(\s|$)/g) || []).length || 1;
+      // Sentence count
+      const sentences = sentenceCount(text);
 
-            // Update header UI stats
-            statWords.textContent = words.toLocaleString();
-            statCharsSpace.textContent = charsWithSpace.toLocaleString();
-            statCharsNoSpace.textContent = charsNoSpace.toLocaleString();
-            statSentences.textContent = sentences.toLocaleString();
+      // Update header UI stats
+      statWords.textContent = words.toLocaleString();
+      statCharsSpace.textContent = charsWithSpace.toLocaleString();
+      statCharsNoSpace.textContent = charsNoSpace.toLocaleString();
+      statSentences.textContent = sentences.toLocaleString();
 
-            // Estimated times
-            // Reading: ~200 WPM
-            const readSeconds = Math.ceil((words / 200) * 60);
-            timeReading.textContent = this.formatDuration(readSeconds);
+      // Estimated times
+      // Reading: ~200 WPM
+      const readSeconds = readingTime(text);
+      timeReading.textContent = this.formatDuration(readSeconds);
 
-            // Speaking: ~130 WPM
-            const speakSeconds = Math.ceil((words / 130) * 60);
-            timeSpeaking.textContent = this.formatDuration(speakSeconds);
+      // Speaking: ~130 WPM
+      const speakSeconds = Math.ceil((words / 130) * 60);
+      timeSpeaking.textContent = this.formatDuration(speakSeconds);
 
-            // Limit fills helper
-            const updateProgress = (fillBar, label, current, max) => {
-                const percentage = Math.min((current / max) * 100, 100);
-                fillBar.style.width = `${percentage}%`;
-                label.textContent = `${current.toLocaleString()} / ${max.toLocaleString()}`;
+      // Limit fills helper
+      const updateProgress = (fillBar, label, limitInfo) => {
+        fillBar.style.width = `${limitInfo.percentage}%`;
+        label.textContent = `${limitInfo.current.toLocaleString()} / ${limitInfo.max.toLocaleString()}`;
 
-                fillBar.classList.remove('warning', 'danger');
-                if (current > max) {
-                    fillBar.classList.add('danger');
-                } else if (current >= max * 0.85) {
-                    fillBar.classList.add('warning');
-                }
-            };
+        fillBar.classList.remove('warning', 'danger');
+        if (limitInfo.status === 'danger') {
+          fillBar.classList.add('danger');
+        } else if (limitInfo.status === 'warning') {
+          fillBar.classList.add('warning');
+        }
+      };
 
-            updateProgress(barTwitter, lblTwitter, charsWithSpace, 280);
-            updateProgress(barMeta, lblMeta, charsWithSpace, 160);
-            updateProgress(barLinkedin, lblLinkedin, charsWithSpace, 3000);
+      const limits = socialLimits(text);
+      updateProgress(barTwitter, lblTwitter, limits.twitter);
+      updateProgress(barMeta, lblMeta, limits.meta);
+      updateProgress(barLinkedin, lblLinkedin, limits.linkedin);
 
-            // Word density calculations
-            this.updateWordDensity(text, densityList);
-        };
+      // Word density calculations
+      this.updateWordDensity(text, densityList);
+    };
 
-        // Input triggers
-        textarea.addEventListener('input', updateStats);
+    // Input triggers
+    textarea.addEventListener('input', updateStats);
 
-        // Copy button
-        const copyBtn = document.getElementById('btn-copy-text');
-        copyBtn.addEventListener('click', () => {
-            if (textarea.value.trim() !== '') {
-                navigator.clipboard.writeText(textarea.value).then(() => {
-                    const originalText = copyBtn.innerHTML;
-                    copyBtn.innerHTML = `
+    // Copy button
+    const copyBtn = document.getElementById('btn-copy-text');
+    copyBtn.addEventListener('click', () => {
+      if (textarea.value.trim() !== '') {
+        navigator.clipboard.writeText(textarea.value).then(() => {
+          const originalText = copyBtn.innerHTML;
+          copyBtn.innerHTML = `
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                         <span>Copied!</span>
                     `;
-                    copyBtn.classList.add('btn-success');
-                    copyBtn.classList.remove('btn-primary');
-                    setTimeout(() => {
-                        copyBtn.innerHTML = originalText;
-                        copyBtn.classList.remove('btn-success');
-                        copyBtn.classList.add('btn-primary');
-                    }, 1500);
-                });
-            }
+          copyBtn.classList.add('btn-success');
+          copyBtn.classList.remove('btn-primary');
+          setTimeout(() => {
+            copyBtn.innerHTML = originalText;
+            copyBtn.classList.remove('btn-success');
+            copyBtn.classList.add('btn-primary');
+          }, 1500);
         });
+      }
+    });
 
-        // Clear button
-        document.getElementById('btn-clear-text').addEventListener('click', () => {
-            textarea.value = '';
-            updateStats();
-        });
+    // Clear button
+    document.getElementById('btn-clear-text').addEventListener('click', () => {
+      textarea.value = '';
+      updateStats();
+    });
 
-        // Case Transformation
-        document.getElementById('btn-apply-case').addEventListener('click', () => {
-            const transformType = document.getElementById('case-transform-select').value;
-            const originalVal = textarea.value;
-            if (!transformType || originalVal.trim() === '') return;
+    // Case Transformation
+    document.getElementById('btn-apply-case').addEventListener('click', () => {
+      const transformType = document.getElementById(
+        'case-transform-select',
+      ).value;
+      const originalVal = textarea.value;
+      if (!transformType || originalVal.trim() === '') return;
 
-            let newVal = '';
-            switch(transformType) {
-                case 'upper':
-                    newVal = originalVal.toUpperCase();
-                    break;
-                case 'lower':
-                    newVal = originalVal.toLowerCase();
-                    break;
-                case 'title':
-                    newVal = this.toTitleCase(originalVal);
-                    break;
-                case 'sentence':
-                    newVal = this.toSentenceCase(originalVal);
-                    break;
-                case 'slug':
-                    newVal = this.toSlugify(originalVal);
-                    break;
-                case 'camel':
-                    newVal = this.toCamelCase(originalVal);
-                    break;
-                case 'reverse':
-                    newVal = originalVal.split('').reverse().join('');
-                    break;
-            }
-            
-            textarea.value = newVal;
-            updateStats();
-        });
-    },
+      let newVal = '';
+      switch (transformType) {
+        case 'upper':
+          newVal = originalVal.toUpperCase();
+          break;
+        case 'lower':
+          newVal = originalVal.toLowerCase();
+          break;
+        case 'title':
+          newVal = this.toTitleCase(originalVal);
+          break;
+        case 'sentence':
+          newVal = this.toSentenceCase(originalVal);
+          break;
+        case 'slug':
+          newVal = this.toSlugify(originalVal);
+          break;
+        case 'camel':
+          newVal = this.toCamelCase(originalVal);
+          break;
+        case 'reverse':
+          newVal = originalVal.split('').reverse().join('');
+          break;
+      }
 
-    formatDuration(seconds) {
-        if (seconds < 60) {
-            return `${seconds}s`;
-        }
-        const mins = Math.floor(seconds / 60);
-        const secs = seconds % 60;
-        return secs === 0 ? `${mins}m` : `${mins}m ${secs}s`;
-    },
+      textarea.value = newVal;
+      updateStats();
+    });
+  },
 
-    toTitleCase(str) {
-        const minorWords = ['a', 'an', 'the', 'and', 'but', 'or', 'for', 'nor', 'on', 'at', 'to', 'from', 'by', 'of', 'in', 'with', 'about', 'as', 'into', 'like', 'through', 'over'];
-        return str.toLowerCase().replace(/\w\S*/g, (txt, index) => {
-            if (index > 0 && minorWords.includes(txt)) {
-                return txt;
-            }
-            return txt.charAt(0).toUpperCase() + txt.substr(1);
-        });
-    },
+  formatDuration(seconds) {
+    if (seconds < 60) {
+      return `${seconds}s`;
+    }
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return secs === 0 ? `${mins}m` : `${mins}m ${secs}s`;
+  },
 
-    toSentenceCase(str) {
-        return str.toLowerCase().replace(/(^\s*|[.!?]\s+)([a-z])/g, (match, separator, letter) => {
-            return separator + letter.toUpperCase();
-        });
-    },
+  toTitleCase(str) {
+    const minorWords = [
+      'a',
+      'an',
+      'the',
+      'and',
+      'but',
+      'or',
+      'for',
+      'nor',
+      'on',
+      'at',
+      'to',
+      'from',
+      'by',
+      'of',
+      'in',
+      'with',
+      'about',
+      'as',
+      'into',
+      'like',
+      'through',
+      'over',
+    ];
+    return str.toLowerCase().replace(/\w\S*/g, (txt, index) => {
+      if (index > 0 && minorWords.includes(txt)) {
+        return txt;
+      }
+      return txt.charAt(0).toUpperCase() + txt.substr(1);
+    });
+  },
 
-    toSlugify(str) {
-        return str
-            .toLowerCase()
-            .trim()
-            .replace(/[^\w\s-]/g, '')
-            .replace(/[\s_]+/g, '-')
-            .replace(/^-+|-+$/g, '');
-    },
+  toSentenceCase(str) {
+    return str
+      .toLowerCase()
+      .replace(/(^\s*|[.!?]\s+)([a-z])/g, (match, separator, letter) => {
+        return separator + letter.toUpperCase();
+      });
+  },
 
-    toCamelCase(str) {
-        return str
-            .toLowerCase()
-            .replace(/[^a-zA-Z0-9]+(.)/g, (match, chr) => chr.toUpperCase())
-            .trim();
-    },
+  toSlugify(str) {
+    return str
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/[\s_]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  },
 
-    updateWordDensity(text, container) {
-        // Cleanup text to find alphanumeric words
-        const cleaned = text.toLowerCase()
-            .replace(/[^\w\s]/g, '') // remove punctuation
-            .replace(/\s+/g, ' ')   // normalize spacing
-            .trim();
+  toCamelCase(str) {
+    return str
+      .toLowerCase()
+      .replace(/[^a-zA-Z0-9]+(.)/g, (match, chr) => chr.toUpperCase())
+      .trim();
+  },
 
-        if (cleaned === '') {
-            container.innerHTML = `<p style="color:var(--text-muted); font-size:0.875rem; text-align:center;">Type text to view frequency analysis</p>`;
-            return;
-        }
+  updateWordDensity(text, container) {
+    // Cleanup text to find alphanumeric words
+    const cleaned = text
+      .toLowerCase()
+      .replace(/[^\w\s]/g, '') // remove punctuation
+      .replace(/\s+/g, ' ') // normalize spacing
+      .trim();
 
-        const words = cleaned.split(' ');
-        const totalCount = words.length;
-        
-        // Count frequencies
-        const freqs = {};
-        words.forEach(word => {
-            if (word.length > 1) { // Ignore single-letter filler words for quality density mapping
-                freqs[word] = (freqs[word] || 0) + 1;
-            }
-        });
+    if (cleaned === '') {
+      container.innerHTML = `<p style="color:var(--text-muted); font-size:0.875rem; text-align:center;">Type text to view frequency analysis</p>`;
+      return;
+    }
 
-        // Convert to array and sort
-        const sorted = Object.entries(freqs)
-            .sort((a, b) => b[1] - a[1])
-            .slice(0, 5); // Take top 5
+    const words = cleaned.split(' ');
+    const totalCount = words.length;
 
-        if (sorted.length === 0) {
-            container.innerHTML = `<p style="color:var(--text-muted); font-size:0.875rem; text-align:center;">No valid analysis candidate words found</p>`;
-            return;
-        }
+    // Count frequencies
+    const freqs = {};
+    words.forEach((word) => {
+      if (word.length > 1) {
+        // Ignore single-letter filler words for quality density mapping
+        freqs[word] = (freqs[word] || 0) + 1;
+      }
+    });
 
-        let html = '<div class="density-list">';
-        sorted.forEach(([word, count]) => {
-            const pct = ((count / totalCount) * 100).toFixed(1);
-            html += `
+    // Convert to array and sort
+    const sorted = Object.entries(freqs)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5); // Take top 5
+
+    if (sorted.length === 0) {
+      container.innerHTML = `<p style="color:var(--text-muted); font-size:0.875rem; text-align:center;">No valid analysis candidate words found</p>`;
+      return;
+    }
+
+    let html = '<div class="density-list">';
+    sorted.forEach(([word, count]) => {
+      const pct = ((count / totalCount) * 100).toFixed(1);
+      html += `
                 <div class="density-row">
                     <span class="density-word">${word}</span>
                     <div>
@@ -350,10 +377,89 @@ export default {
                     </div>
                 </div>
             `;
-        });
-        html += '</div>';
-        container.innerHTML = html;
-    },
+    });
+    html += '</div>';
+    container.innerHTML = html;
+  },
 
-    destroy() {}
+  destroy() {},
 };
+
+/**
+ * Calculates character count.
+ * @param {string} text
+ * @param {boolean} excludeSpaces
+ * @returns {number}
+ */
+export function charCount(text, excludeSpaces = false) {
+  if (!text) return 0;
+  if (excludeSpaces) {
+    return text.replace(/\s/g, '').length;
+  }
+  return text.length;
+}
+
+/**
+ * Calculates word count.
+ * @param {string} text
+ * @returns {number}
+ */
+export function wordCount(text) {
+  if (!text) return 0;
+  const cleanText = text.trim();
+  return cleanText === '' ? 0 : cleanText.split(/\s+/).length;
+}
+
+/**
+ * Calculates sentence count.
+ * @param {string} text
+ * @returns {number}
+ */
+export function sentenceCount(text) {
+  if (!text) return 0;
+  const cleanText = text.trim();
+  if (cleanText === '') return 0;
+  return (text.match(/[.!?]+(\s|$)/g) || []).length || 1;
+}
+
+/**
+ * Calculates reading time in seconds.
+ * @param {string} text
+ * @returns {number}
+ */
+export function readingTime(text) {
+  const words = wordCount(text);
+  return Math.ceil((words / 200) * 60);
+}
+
+/**
+ * Evaluates limits for various social networks.
+ * @param {string} text
+ * @returns {object}
+ */
+export function socialLimits(text) {
+  const chars = charCount(text, false);
+  return {
+    twitter: {
+      current: chars,
+      max: 280,
+      percentage: Math.min((chars / 280) * 100, 100),
+      status:
+        chars > 280 ? 'danger' : chars >= 280 * 0.85 ? 'warning' : 'normal',
+    },
+    meta: {
+      current: chars,
+      max: 160,
+      percentage: Math.min((chars / 160) * 100, 100),
+      status:
+        chars > 160 ? 'danger' : chars >= 160 * 0.85 ? 'warning' : 'normal',
+    },
+    linkedin: {
+      current: chars,
+      max: 3000,
+      percentage: Math.min((chars / 3000) * 100, 100),
+      status:
+        chars > 3000 ? 'danger' : chars >= 3000 * 0.85 ? 'warning' : 'normal',
+    },
+  };
+}

@@ -29,7 +29,7 @@ exports.handler = async (event) => {
         followRedirects = body.followRedirects !== false; // default true
         method = (body.method || 'GET').toUpperCase();
         userAgent = body.userAgent || 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 tiinytools/1.0';
-    } catch (e) {
+    } catch {
         return { statusCode: 400, headers: corsHeaders, body: JSON.stringify({ error: 'Invalid JSON request body' }) };
     }
 
