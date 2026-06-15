@@ -6,3 +6,7 @@ node_modules/
 
 # OS generated files
 .DS_Store
+
+# Environment & AI Developer configs
+.env
+DEVELOPER_GUIDELINES.md
