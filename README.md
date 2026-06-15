@@ -1,8 +1,6 @@
 # tinytools
 
-![tinytools](assets/tinytools.png)
-
-https://tinytools.netlify.app
+https://tt.crda.dev
 
 a collection of simple client-side web tools. calculate percentages, count words, split/merge pdfs, convert json, build utm tags, and check urls directly in your browser with no server uploads.
 
@@ -34,7 +32,7 @@ this project uses the following dependencies:
 - **pdf-lib**: dynamically loaded via cdn for client-side pdf modification (splitting, joining, and reconstruction)
 - **pdf.js**: dynamically loaded via cdn for client-side pdf rendering and compression
 - **cloudconvert api**: integration used by serverless functions to convert pdf files to docx, pptx, xlsx, and png
-- **netlify functions**: serverless backend endpoints used for checking url statuses and interacting with the cloudconvert api
+- **vercel serverless functions**: serverless backend endpoints used for checking url statuses and interacting with the cloudconvert api
 
 ## getting started
 
@@ -42,9 +40,9 @@ because the tools are entirely static and client-side, you can run them locally 
 
 to run locally for development:
 ```bash
-npx netlify dev
+npx vercel dev
 ```
-then visit `http://localhost:8888` in your browser.
+then visit `http://localhost:3000` in your browser.
 
 ### qa & testing stack
 
@@ -65,7 +63,7 @@ npm run lint
 ```
 tinytools/
 ├── index.html            # main html entry point
-├── netlify.toml          # netlify configuration
+├── vercel.json           # vercel configuration
 ├── eslint.config.js      # eslint rules configuration
 ├── .prettierrc           # prettier config rules
 ├── package.json          # dependencies and npm scripts
@@ -103,13 +101,12 @@ tinytools/
 │           ├── redirect-checker.test.js
 │           ├── json-to-csv.test.js
 │           └── utm-builder.test.js
-└── netlify/              # serverless backend config
-    └── functions/        # serverless endpoints
-        ├── cc-start.js   # start cloudconvert job
-        ├── cc-status.js  # check cloudconvert status
-        └── check-url.js  # proxy to fetch headers and redirects
+└── api/                  # vercel serverless functions
+    ├── cc-start.js       # start cloudconvert job
+    ├── cc-status.js      # check cloudconvert status
+    └── check-url.js      # proxy to fetch headers and redirects
 ```
 
 ## deployment
 
-this project is built to be hosted on any static hosting provider. it is currently configured for continuous deployment via netlify. simply push to the main branch, and the live site updates automatically.
+this project is built to be hosted on any static hosting provider. it is currently configured for continuous deployment via vercel. simply push to the main branch, and the live site updates automatically.

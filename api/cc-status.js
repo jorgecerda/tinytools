@@ -3,6 +3,7 @@
 
 export default async function handler(req, res) {
     const allowedOrigins = [
+        'https://tt.crda.dev',
         'https://tinytools.netlify.app',
         'https://tinytools.vercel.app',
         'http://localhost:8888',
