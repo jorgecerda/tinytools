@@ -1,40 +1,40 @@
-// Netlify Function: check-url.js
+// Vercel Serverless Function: api/check-url.js
 // Proxies HTTP requests to check URL status codes and track redirect chains.
 // Bypasses browser CORS restrictions securely.
 
-exports.handler = async (event) => {
-    const allowedOrigins = ['https://tiinytools.netlify.app', 'http://localhost:8888', 'http://localhost:8000'];
-    const origin = event.headers.origin || '';
+export default async function handler(req, res) {
+    const allowedOrigins = [
+        'https://tinytools.netlify.app',
+        'https://tinytools.vercel.app',
+        'http://localhost:8888',
+        'http://localhost:3000',
+        'http://localhost:8000'
+    ];
+    const origin = req.headers.origin || '';
     const corsOrigin = allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
 
-    const corsHeaders = {
-        'Access-Control-Allow-Origin': corsOrigin,
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Content-Type': 'application/json',
-    };
+    res.setHeader('Access-Control-Allow-Origin', corsOrigin);
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Content-Type', 'application/json');
 
-    if (event.httpMethod === 'OPTIONS') {
-        return { statusCode: 204, headers: corsHeaders, body: '' };
+    if (req.method === 'OPTIONS') {
+        return res.status(204).end();
     }
 
-    if (event.httpMethod !== 'POST') {
-        return { statusCode: 405, headers: corsHeaders, body: JSON.stringify({ error: 'Method not allowed' }) };
+    if (req.method !== 'POST') {
+        return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    let url, followRedirects, method, userAgent;
-    try {
-        const body = JSON.parse(event.body || '{}');
-        url = body.url;
-        followRedirects = body.followRedirects !== false; // default true
-        method = (body.method || 'GET').toUpperCase();
-        userAgent = body.userAgent || 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 tiinytools/1.0';
-    } catch {
-        return { statusCode: 400, headers: corsHeaders, body: JSON.stringify({ error: 'Invalid JSON request body' }) };
-    }
+    // req.body is automatically parsed as JSON by Vercel
+    const body = req.body || {};
+    const url = body.url;
+    const followRedirects = body.followRedirects !== false;
+    const method = (body.method || 'GET').toUpperCase();
+    const userAgent = body.userAgent || 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 tinytools/1.0';
 
     if (!url) {
-        return { statusCode: 400, headers: corsHeaders, body: JSON.stringify({ error: 'Missing parameter: url' }) };
+        return res.status(400).json({ error: 'Missing parameter: url' });
     }
 
     // Standardize URL protocol
@@ -75,7 +75,7 @@ exports.handler = async (event) => {
         const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout
 
         try {
-            const res = await fetch(currentUrl, {
+            const fetchRes = await fetch(currentUrl, {
                 method: method,
                 headers: requestHeaders,
                 redirect: 'manual', // Do not automatically follow redirect in Node environment
@@ -89,12 +89,12 @@ exports.handler = async (event) => {
             const resHeaders = {};
             const headersToKeep = ['location', 'server', 'content-type', 'cache-control', 'x-redirect-by', 'content-length', 'content-security-policy', 'content-security-policy-report-only'];
             headersToKeep.forEach(h => {
-                const val = res.headers.get(h);
+                const val = fetchRes.headers.get(h);
                 if (val) resHeaders[h] = val;
             });
 
-            const status = res.status;
-            const statusText = res.statusText || getStatusTextFallback(status);
+            const status = fetchRes.status;
+            const statusText = fetchRes.statusText || getStatusTextFallback(status);
 
             chain.push({
                 url: currentUrl,
@@ -149,17 +149,13 @@ exports.handler = async (event) => {
         });
     }
 
-    return {
-        statusCode: 200,
-        headers: corsHeaders,
-        body: JSON.stringify({
-            url,
-            redirected,
-            hopCount: chain.length,
-            chain
-        })
-    };
-};
+    return res.status(200).json({
+        url,
+        redirected,
+        hopCount: chain.length,
+        chain
+    });
+}
 
 // Simple fallback helper for common HTTP statuses
 function getStatusTextFallback(status) {

@@ -1,4 +1,4 @@
-// Main app controller for tiinytools
+// Main app controller for tinytools
 
 // Registry of tools
 const TOOLS_REGISTRY = {
@@ -144,7 +144,7 @@ async function handleRoute() {
         toolView.style.display = 'none';
         homeView.style.display = 'block';
         document.getElementById('nav-home').classList.add('active');
-        document.title = 'tiinytools | Fast, lightweight utilities';
+        document.title = 'tinytools | Fast, lightweight utilities';
     } else {
         // Load Selected Tool
         homeView.style.display = 'none';
@@ -153,7 +153,7 @@ async function handleRoute() {
         const toolMeta = TOOLS_REGISTRY[toolId];
         document.getElementById('toolTitle').textContent = toolMeta.title;
         document.getElementById('toolDescription').textContent = toolMeta.description;
-        document.title = `${toolMeta.title} - tiinytools`;
+        document.title = `${toolMeta.title} - tinytools`;
 
         toolContainer.innerHTML = `
             <div class="tool-loader">
@@ -346,6 +346,7 @@ function initShareButtons() {
     }
 
     if (copyToolBtn) {
+        const originalHtml = copyToolBtn.innerHTML;
         copyToolBtn.addEventListener('click', () => {
             const shareUrl = window.location.href;
             navigator.clipboard.writeText(shareUrl).then(() => {
@@ -357,3 +358,15 @@ function initShareButtons() {
         });
     }
 }
+
+// Global Enter key handling for input fields (excluding textareas)
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && e.target.tagName === 'INPUT') {
+    // Find the nearest button within the same form group or container
+    const btn = e.target.closest('.csp-form-group, .bulk-options-panel, .tool-card')?.querySelector('button');
+    if (btn) {
+      btn.click();
+      e.preventDefault();
+    }
+  }
+});

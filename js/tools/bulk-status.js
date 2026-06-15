@@ -600,7 +600,7 @@ export default {
     link.setAttribute('href', encodedUri);
     link.setAttribute(
       'download',
-      `tiinytools_bulk_http_status_${Date.now()}.csv`,
+      `tinytools_bulk_http_status_${Date.now()}.csv`,
     );
     document.body.appendChild(link);
     link.click();

@@ -53,7 +53,7 @@ export function readFileAsArrayBuffer(file) {
  */
 export const UA_PRESETS = {
   chrome:
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 tiinytools/1.0',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 tinytools/1.0',
   googlebot:
     'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
   mobile:

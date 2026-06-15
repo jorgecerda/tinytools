@@ -1,8 +1,8 @@
-# tiinytools
+# tinytools
 
-![tiinytools](assets/tiinytools.png)
+![tinytools](assets/tinytools.png)
 
-https://tiinytools.netlify.app
+https://tinytools.netlify.app
 
 a collection of simple client-side web tools. calculate percentages, count words, split/merge pdfs, convert json, build utm tags, and check urls directly in your browser with no server uploads.
 
@@ -63,7 +63,7 @@ npm run lint
 ## structure tree
 
 ```
-tiinytools/
+tinytools/
 ├── index.html            # main html entry point
 ├── netlify.toml          # netlify configuration
 ├── eslint.config.js      # eslint rules configuration
@@ -71,7 +71,7 @@ tiinytools/
 ├── package.json          # dependencies and npm scripts
 ├── assets/               # static images and icons
 │   ├── logo.png          # application logo
-│   └── tiinytools.png    # project branding image
+│   └── tinytools.png    # project branding image
 ├── css/                  # styling files
 │   ├── main.css          # global styling
 │   └── tools/            # tool-specific stylesheets

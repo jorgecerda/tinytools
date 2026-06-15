@@ -560,12 +560,12 @@ export default {
               
               <!-- Extracted CSP Textbox (Only displayed if fetched from URL) -->
               <div id="cspExtractedContainer" class="csp-form-group" style="display:none; margin-bottom:12px;">
-                <label class="csp-form-label">Extracted Content Security Policy</label>
-                <div class="csp-input-group">
-                  <textarea id="cspExtractedOutput" class="input-premium csp-merge-textarea" readonly style="min-height:80px; flex:1;"></textarea>
-                  <button class="btn-primary" id="btnCopyExtractedCsp">Copy</button>
+                  <label class="csp-form-label">Extracted Content Security Policy</label>
+                  <textarea id="cspExtractedOutput" class="input-premium csp-merge-textarea" readonly style="min-height:80px;"></textarea>
+                  <div style="margin-top:8px;">
+                    <button class="btn-primary" id="btnCopyExtractedCsp" style="width:fit-content;">Copy Extracted CSP</button>
+                  </div>
                 </div>
-              </div>
 
               <!-- Grade Box -->
               <div class="csp-grade-container">

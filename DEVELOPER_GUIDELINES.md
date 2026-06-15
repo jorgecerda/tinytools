@@ -1,4 +1,4 @@
-# tiinytools Developer Guidelines
+# tinytools Developer Guidelines
 
 Please adhere to the following rules for all development, refactoring, and feature additions in this project:
 

@@ -206,6 +206,7 @@
   font-weight: 800;
   color: white;
   text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  flex-shrink: 0;
 }
 
 .csp-grade-badge.grade-strong {
