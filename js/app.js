@@ -22,7 +22,7 @@ const TOOLS_REGISTRY = {
         description: 'Compress PDFs locally in your browser, or convert PDFs to Word, PowerPoint, Excel and PNG via CloudConvert.',
         modulePath: './tools/pdftools.js'
     },
-    'url-http-status-cheker': {
+    'url-http-status-checker': {
         title: 'URL HTTP Status Checker',
         description: 'Check the HTTP response status codes, redirect destinations, and response headers for multiple URLs in bulk.',
         modulePath: './tools/bulk-status.js'
@@ -205,7 +205,7 @@ function initSearch() {
         toolCards.forEach(card => {
             const badge = card.querySelector('.tool-badge');
             if (badge) {
-                const tag = badge.textContent.replace(/[\[\]]/g, '').trim().toUpperCase();
+                const tag = badge.textContent.replace(/[[\]]/g, '').trim().toUpperCase();
                 counts[tag] = (counts[tag] || 0) + 1;
             }
         });
@@ -238,7 +238,7 @@ function initSearch() {
             const tags = card.getAttribute('data-tags').toLowerCase();
             
             // Extract badge text safely, removing any brackets if they exist
-            const badgeText = card.querySelector('.tool-badge').textContent.toLowerCase().replace(/[\[\]]/g, '').trim();
+            const badgeText = card.querySelector('.tool-badge').textContent.toLowerCase().replace(/[[\]]/g, '').trim();
 
             const matchesSearch = !query || title.includes(query) || desc.includes(query) || tags.includes(query);
             const matchesTag = tag === 'all' || badgeText === tag;
@@ -346,7 +346,6 @@ function initShareButtons() {
     }
 
     if (copyToolBtn) {
-        const originalHtml = copyToolBtn.innerHTML;
         copyToolBtn.addEventListener('click', () => {
             const shareUrl = window.location.href;
             navigator.clipboard.writeText(shareUrl).then(() => {

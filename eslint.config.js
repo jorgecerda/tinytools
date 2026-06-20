@@ -3,7 +3,7 @@ import globals from 'globals';
 
 export default [
   {
-    ignores: ['js/app.js', '.netlify/**'],
+    ignores: ['.netlify/**'],
   },
   js.configs.recommended,
   {
