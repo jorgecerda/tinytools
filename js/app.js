@@ -46,6 +46,11 @@ const TOOLS_REGISTRY = {
         title: 'CSP Build, Combine & Verify',
         description: 'Create Content Security Policies, combine multiple policies into one, or audit existing CSP headers and URLs for vulnerabilities.',
         modulePath: './tools/csp-tool.js'
+    },
+    'request-new-tool': {
+        title: 'Request New Tool',
+        description: 'Describe the tool you want to see added to tinytools.',
+        modulePath: './tools/request-tool.js'
     }
 };
 
