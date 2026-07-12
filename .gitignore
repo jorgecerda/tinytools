@@ -10,3 +10,6 @@ node_modules/
 # Environment & AI Developer configs
 .env
 DEVELOPER_GUIDELINES.md
+.agents/
+AGENTS.md
+

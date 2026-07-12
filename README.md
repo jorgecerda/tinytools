@@ -2,7 +2,7 @@
 
 https://tt.crda.dev
 
-a collection of simple client-side web tools. calculate percentages, count words, split/merge pdfs, convert json, build utm tags, and check urls directly in your browser with no server uploads.
+a collection of simple client-side web tools. calculate percentages, count words, split/merge pdfs, convert json, build utm tags, request new tools, and check urls directly in your browser with no server uploads.
 
 ## features
 
@@ -17,6 +17,7 @@ a collection of simple client-side web tools. calculate percentages, count words
 - **utm build & verify**: build campaigns with structured url inputs or inspect existing urls to analyze parameters. categorizes traffic directly under google analytics 4 (ga4) default channel grouping rules.
 - **dynamic dashboard tags**: categories on the dashboard are counted and sorted dynamically by the number of active tools.
 - **quick url share buttons**: copy and share direct links to the site or specific tools with one click next to the titles.
+- **request new tool form**: submit suggestions for new local utilities directly via an integrated AJAX request form.
 
 ## design system
 
@@ -33,6 +34,7 @@ this project uses the following dependencies:
 - **pdf.js**: dynamically loaded via cdn for client-side pdf rendering and compression
 - **cloudconvert api**: integration used by serverless functions to convert pdf files to docx, pptx, xlsx, and png
 - **vercel serverless functions**: serverless backend endpoints used for checking url statuses and interacting with the cloudconvert api
+- **formsubmit.co**: handles AJAX submissions for the request new tool form without triggering browser email client redirects or reCAPTCHA loops.
 
 ## getting started
 
