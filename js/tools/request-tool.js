@@ -19,10 +19,6 @@ export default {
   render(container) {
     container.innerHTML = `
       <div class="card-premium" id="requestToolCard">
-        <h2 style="margin-bottom: 8px; color: var(--text-primary);">Request New Tool</h2>
-        <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 0.95rem; line-height: 1.5;">
-          Is there a local, private tool you'd like to see added to tinytools? Describe it below and submit the request.
-        </p>
 
         <form id="requestToolForm">
           <div class="form-group">

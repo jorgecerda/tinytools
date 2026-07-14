@@ -43,12 +43,27 @@ export default async function handler(req, res) {
     // Construct the email body
     const textBody = `Description of the requested tool:\n${cleanDescription}\n\nContact Email (optional):\n${cleanEmail || 'Not provided'}`;
 
+    // Construct a dynamic subject to prevent Gmail threading
+    const maxDescLen = 40;
+    const truncatedDesc = cleanDescription.length > maxDescLen 
+        ? cleanDescription.substring(0, maxDescLen) + '...' 
+        : cleanDescription;
+    const cleanSubjectDesc = truncatedDesc.replace(/\s+/g, ' ');
+    const subject = `tinytools - new tool request: ${cleanSubjectDesc}`;
+
+    // Determine sender based on whether email is provided
+    let sender = 'tt@crda.dev';
+    if (cleanEmail) {
+        const safeEmail = cleanEmail.replace(/["\\]/g, '');
+        sender = `"${safeEmail}" <tt@crda.dev>`;
+    }
+
     // Construct payload for SMTP2GO API v3
     const payload = {
         api_key: apiKey,
-        sender: 'request-tool@crda.dev',
+        sender: sender,
         to: ['j@crda.dev'],
-        subject: 'tinytools - new tool request',
+        subject: subject,
         text_body: textBody
     };
 
