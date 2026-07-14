@@ -8,9 +8,8 @@ describe('Request Tool Payload Builder', () => {
     const payload = buildPayload(desc, email);
 
     expect(payload).toEqual({
-      _subject: 'tinytools - new tool request',
-      _captcha: 'false',
-      description: 'A secure password generator'
+      description: 'A secure password generator',
+      email: ''
     });
   });
 
@@ -20,11 +19,8 @@ describe('Request Tool Payload Builder', () => {
     const payload = buildPayload(desc, email);
 
     expect(payload).toEqual({
-      _subject: 'tinytools - new tool request',
-      _captcha: 'false',
       description: 'A JSON validator',
-      email: 'user@example.com',
-      _replyto: 'user@example.com'
+      email: 'user@example.com'
     });
   });
 });

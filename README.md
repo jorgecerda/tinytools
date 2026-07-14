@@ -34,7 +34,7 @@ this project uses the following dependencies:
 - **pdf.js**: dynamically loaded via cdn for client-side pdf rendering and compression
 - **cloudconvert api**: integration used by serverless functions to convert pdf files to docx, pptx, xlsx, and png
 - **vercel serverless functions**: serverless backend endpoints used for checking url statuses and interacting with the cloudconvert api
-- **formsubmit.co**: handles AJAX submissions for the request new tool form without triggering browser email client redirects or reCAPTCHA loops.
+- **smtp2go**: api integration used by our serverless function to securely relay new tool suggestions to the maintainer's mailbox.
 
 ## getting started
 

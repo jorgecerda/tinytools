@@ -7,18 +7,10 @@
  * @returns {Object}
  */
 export function buildPayload(desc, email) {
-  const payload = {
-    _subject: 'tinytools - new tool request',
-    _captcha: 'false',
-    description: desc
+  return {
+    description: desc,
+    email: email || ''
   };
-
-  if (email) {
-    payload.email = email;
-    payload._replyto = email;
-  }
-
-  return payload;
 }
 
 export default {
@@ -66,22 +58,28 @@ export default {
 
       try {
         const payload = buildPayload(desc, email);
-        const res = await fetch('https://formsubmit.co/ajax/j@crda.dev', {
+        const res = await fetch('/api/request-new-tool', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify(payload)
         });
 
-        if (!res.ok) {
-          throw new Error('Server responded with an error status.');
+        let data = null;
+        try {
+          data = await res.json();
+        } catch {
+          // Response is not JSON
         }
 
-        const data = await res.json();
-        if (data.success === 'false') {
-          throw new Error(data.message || 'Submission failed');
+        if (!res.ok) {
+          const errMsg = data?.error || `Server error (${res.status})`;
+          throw new Error(errMsg);
+        }
+
+        if (data && data.success !== true) {
+          throw new Error(data.error || 'Submission failed');
         }
 
         // Show success state
