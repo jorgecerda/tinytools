@@ -15,6 +15,7 @@ a collection of simple client-side web tools. calculate percentages, count words
 - **url redirect checker**: track the complete path a url takes, identifying redirect chains, intermediate urls, status codes, and headers.
 - **json to csv converter**: convert json objects or arrays recursively (with nested attribute auto-flattening) to csv. features a 10-row preview and excelsior-compatible downloads.
 - **utm build & verify**: build campaigns with structured url inputs or inspect existing urls to analyze parameters. categorizes traffic directly under google analytics 4 (ga4) default channel grouping rules.
+- **favorites & pinned tools**: star your favorite tools to pin them to the top of your dashboard for quick access, with automatic session persistence and cross-page synchronization.
 - **dynamic dashboard tags**: categories on the dashboard are counted and sorted dynamically by the number of active tools.
 - **quick url share buttons**: copy and share direct links to the site or specific tools with one click next to the titles.
 - **request new tool form**: submit suggestions for new local utilities directly via an integrated AJAX request form.
@@ -86,6 +87,7 @@ tinytools/
 ├── js/                   # javascript files
 │   ├── app.js            # main routing and search logic
 │   ├── shared/
+│   │   ├── favorites.js  # shared favorites persistence & sorting helpers
 │   │   └── utils.js      # shared helper functions
 │   └── tools/            # tool-specific script files
 │       ├── percentage.js        # percentage calculator logic
@@ -97,6 +99,7 @@ tinytools/
 │       ├── json-to-csv.js       # json to csv converter logic
 │       ├── utm-builder.js       # utm campaign builder logic
 │       └── __tests__/           # vitest unit tests
+│           ├── favorites.test.js
 │           ├── percentage.test.js
 │           ├── text.test.js
 │           ├── bulk-status.test.js

@@ -484,6 +484,15 @@ body {
     box-shadow: var(--shadow-md);
 }
 
+.tool-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+}
+
 .tool-card-icon {
     width: 56px;
     height: 56px;
@@ -491,7 +500,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
     transition: transform 0.3s ease;
 }
 
@@ -842,3 +850,59 @@ body {
     border-color: var(--success);
     color: var(--success);
 }
+
+/* Favorite star buttons */
+.btn-favorite {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    border-radius: 6px;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.btn-favorite:hover {
+    color: var(--primary);
+    background: var(--primary-glow);
+    transform: scale(1.1);
+}
+
+.btn-favorite:active {
+    transform: scale(0.9);
+}
+
+.btn-favorite.active {
+    color: var(--primary);
+}
+
+.btn-favorite.active svg {
+    fill: currentColor;
+}
+
+.btn-favorite-header {
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.btn-favorite-header:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--border-color-hover);
+    transform: scale(1.05);
+}
+
+.btn-favorite-header.active {
+    color: var(--primary);
+    border-color: var(--primary);
+    background: var(--primary-glow);
+}
+

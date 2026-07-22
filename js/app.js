@@ -1,3 +1,5 @@
+import { loadFavorites, saveFavorites, isFavorite, toggleFavorite, sortItemsByFavorites } from './shared/favorites.js';
+
 // Main app controller for tinytools
 
 // Registry of tools
@@ -55,9 +57,11 @@ const TOOLS_REGISTRY = {
 };
 
 let currentActiveTool = null;
+let activeFavorites = [];
 
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
+    initFavorites();
     initRouter();
     initSearch();
     initMobileNavigation();
@@ -194,7 +198,97 @@ async function handleRoute() {
 
     // Close mobile drawer if open
     document.getElementById('appSidebar').classList.remove('open');
+
+    // Sync favorites UI icons and card positions
+    syncFavoritesUI();
 }
+
+// Favorites Management
+function initFavorites() {
+    activeFavorites = loadFavorites();
+
+    const grid = document.getElementById('toolsGrid');
+    if (grid) {
+        grid.addEventListener('click', (e) => {
+            const btn = e.target.closest('.btn-favorite-card');
+            if (btn) {
+                e.preventDefault();
+                e.stopPropagation();
+                const card = btn.closest('.tool-card');
+                const toolId = card ? card.getAttribute('data-tool-id') : null;
+                if (toolId) {
+                    activeFavorites = toggleFavorite(toolId, activeFavorites);
+                    saveFavorites(activeFavorites);
+                    syncFavoritesUI(false);
+                }
+            }
+        });
+    }
+
+    const headerBtn = document.getElementById('favoriteToolHeaderBtn');
+    if (headerBtn) {
+        headerBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const currentHash = (window.location.hash || '#home').replace('#', '');
+            if (currentHash && currentHash !== 'home' && TOOLS_REGISTRY[currentHash]) {
+                activeFavorites = toggleFavorite(currentHash, activeFavorites);
+                saveFavorites(activeFavorites);
+                syncFavoritesUI(false);
+            }
+        });
+    }
+
+    syncFavoritesUI(true);
+}
+
+function syncFavoritesUI(reorder = true) {
+    const cards = document.querySelectorAll('.tool-card');
+    cards.forEach(card => {
+        const toolId = card.getAttribute('data-tool-id');
+        const btn = card.querySelector('.btn-favorite-card');
+        const fav = isFavorite(toolId, activeFavorites);
+        if (btn) {
+            if (fav) {
+                btn.classList.add('active');
+                btn.setAttribute('aria-label', 'Remove from favorites');
+                btn.setAttribute('title', 'Remove from favorites');
+            } else {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-label', 'Add to favorites');
+                btn.setAttribute('title', 'Add to favorites');
+            }
+        }
+    });
+
+    if (reorder) {
+        reorderCards();
+    }
+
+    const currentHash = (window.location.hash || '#home').replace('#', '');
+    const headerBtn = document.getElementById('favoriteToolHeaderBtn');
+    if (headerBtn) {
+        const fav = isFavorite(currentHash, activeFavorites);
+        if (fav) {
+            headerBtn.classList.add('active');
+            headerBtn.setAttribute('aria-label', 'Remove from favorites');
+            headerBtn.setAttribute('title', 'Remove from favorites');
+        } else {
+            headerBtn.classList.remove('active');
+            headerBtn.setAttribute('aria-label', 'Add to favorites');
+            headerBtn.setAttribute('title', 'Add to favorites');
+        }
+    }
+}
+
+function reorderCards() {
+    const grid = document.getElementById('toolsGrid');
+    if (!grid) return;
+
+    const cards = Array.from(grid.querySelectorAll('.tool-card'));
+    const sorted = sortItemsByFavorites(cards, card => card.getAttribute('data-tool-id'), activeFavorites);
+    sorted.forEach(card => grid.appendChild(card));
+}
+
 // 3. Search and Filtering System
 function initSearch() {
     const sidebarSearch = document.getElementById('toolSearchInput');
