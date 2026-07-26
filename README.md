@@ -25,7 +25,7 @@ a collection of simple client-side web tools. calculate percentages, count words
 built with a focus on modern web aesthetics, featuring:
 - sleek glassmorphism ui cards
 - fully responsive grid layout
-- beautiful dark mode by default (with light mode toggle)
+- dark/light mode preference memory & system color scheme auto-detection
 - vanilla html, css, and es6 javascript (no heavy frameworks required)
 
 ## dependencies
@@ -88,6 +88,7 @@ tinytools/
 │   ├── app.js            # main routing and search logic
 │   ├── shared/
 │   │   ├── favorites.js  # shared favorites persistence & sorting helpers
+│   │   ├── theme.js      # shared theme auto-detection & preference helpers
 │   │   └── utils.js      # shared helper functions
 │   └── tools/            # tool-specific script files
 │       ├── percentage.js        # percentage calculator logic
@@ -102,6 +103,7 @@ tinytools/
 │           ├── favorites.test.js
 │           ├── percentage.test.js
 │           ├── text.test.js
+│           ├── theme.test.js
 │           ├── bulk-status.test.js
 │           ├── redirect-checker.test.js
 │           ├── json-to-csv.test.js

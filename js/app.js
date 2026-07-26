@@ -1,4 +1,5 @@
 import { loadFavorites, saveFavorites, isFavorite, toggleFavorite, sortItemsByFavorites } from './shared/favorites.js';
+import { getInitialTheme } from './shared/theme.js';
 
 // Main app controller for tinytools
 
@@ -69,10 +70,19 @@ document.addEventListener('DOMContentLoaded', () => {
     initShareButtons();
 });
 
-// 1. Theme Management (Light / Dark mode)
+// 1. Theme Management (Light / Dark mode & System Auto-detect)
 function initTheme() {
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    setTheme(savedTheme);
+    const initialTheme = getInitialTheme();
+    setTheme(initialTheme);
+
+    // Auto-detect OS system color scheme changes if no explicit user preference is saved
+    if (window.matchMedia) {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+                setTheme(e.matches ? 'dark' : 'light');
+            }
+        });
+    }
 
     const toggleBtn = document.getElementById('themeToggleBtn');
     const toggleBtnMobile = document.getElementById('themeToggleBtnMobile');
@@ -82,15 +92,17 @@ function initTheme() {
             btn.addEventListener('click', () => {
                 const currentTheme = document.documentElement.getAttribute('data-theme');
                 const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                setTheme(newTheme);
+                setTheme(newTheme, true);
             });
         }
     });
 }
 
-function setTheme(theme) {
+function setTheme(theme, isUserExplicitAction = false) {
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
+    if (isUserExplicitAction) {
+        localStorage.setItem('theme', theme);
+    }
 
     // Sync button icons
     const darkIcons = document.querySelectorAll('.dark-icon');
