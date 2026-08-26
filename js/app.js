@@ -206,10 +206,13 @@ async function handleRoute() {
     }
 
     // Auto-scroll to top of page on route change
-    document.querySelector('.app-main').scrollTop = 0;
+    window.scrollTo({ top: 0, behavior: 'instant' });
 
     // Close mobile drawer if open
-    document.getElementById('appSidebar').classList.remove('open');
+    const sidebar = document.getElementById('appSidebar');
+    if (sidebar) {
+        sidebar.classList.remove('open');
+    }
 
     // Sync favorites UI icons and card positions
     syncFavoritesUI();
@@ -342,6 +345,7 @@ function initSearch() {
     function applyFilters() {
         const query = (dashboardSearch?.value || sidebarSearch?.value || '').toLowerCase().trim();
         const tag = activeFilterTag.toLowerCase();
+        let visibleCount = 0;
 
         toolCards.forEach(card => {
             const title = card.querySelector('.tool-card-title').textContent.toLowerCase();
@@ -356,10 +360,30 @@ function initSearch() {
 
             if (matchesSearch && matchesTag) {
                 card.style.display = 'flex';
+                visibleCount++;
             } else {
                 card.style.display = 'none';
             }
         });
+
+        // Toggle 'No results' message
+        let noResultsMsg = document.getElementById('noResultsMsg');
+        const toolsGrid = document.getElementById('toolsGrid');
+
+        if (visibleCount === 0) {
+            if (!noResultsMsg && toolsGrid) {
+                noResultsMsg = document.createElement('p');
+                noResultsMsg.id = 'noResultsMsg';
+                noResultsMsg.className = 'no-results-msg';
+                noResultsMsg.innerHTML = 'No results. You can <a href="#request-new-tool" class="no-results-link">request new tools here</a>.';
+                toolsGrid.parentNode.insertBefore(noResultsMsg, toolsGrid.nextSibling);
+            }
+            if (noResultsMsg) {
+                noResultsMsg.style.display = 'block';
+            }
+        } else if (noResultsMsg) {
+            noResultsMsg.style.display = 'none';
+        }
     }
 
     // Initialize tag filters
