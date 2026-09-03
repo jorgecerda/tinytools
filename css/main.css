@@ -144,6 +144,7 @@ body {
     background-color: var(--bg-card-hover);
 }
 
+.btn-github-header,
 .theme-toggle-btn-header {
     display: inline-flex;
     align-items: center;
@@ -155,10 +156,12 @@ body {
     border: 1px solid var(--border-color);
     border-radius: 8px;
     color: var(--text-secondary);
+    text-decoration: none;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
+.btn-github-header:hover,
 .theme-toggle-btn-header:hover {
     border-color: var(--primary);
     color: var(--text-primary);

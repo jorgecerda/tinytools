@@ -15,7 +15,7 @@ a collection of simple client-side web tools. calculate percentages, count words
 - **url redirect checker**: track the complete path a url takes, identifying redirect chains, intermediate urls, status codes, and headers.
 - **json to csv converter**: convert json objects or arrays recursively (with nested attribute auto-flattening) to csv. features a 10-row preview and excelsior-compatible downloads.
 - **utm build & verify**: build campaigns with structured url inputs or inspect existing urls to analyze parameters. categorizes traffic directly under google analytics 4 (ga4) default channel grouping rules.
-- **top navigation & single-column layout**: clean sticky top header with quick tool request links and theme toggle.
+- **top navigation & single-column layout**: clean sticky top header with quick tool request links, github repository shortcut, and theme toggle.
 - **search & empty state feedback**: instant filtering with clear no-results feedback and direct request links.
 - **favorites & pinned tools**: star your favorite tools to pin them to the top of your dashboard for quick access, with automatic session persistence and cross-page synchronization.
 
