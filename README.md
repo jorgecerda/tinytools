@@ -15,6 +15,7 @@ a collection of simple client-side web tools. calculate percentages, count words
 - **url redirect checker**: track the complete path a url takes, identifying redirect chains, intermediate urls, status codes, and headers.
 - **json to csv converter**: convert json objects or arrays recursively (with nested attribute auto-flattening) to csv. features a 10-row preview and excelsior-compatible downloads.
 - **utm build & verify**: build campaigns with structured url inputs or inspect existing urls to analyze parameters. categorizes traffic directly under google analytics 4 (ga4) default channel grouping rules.
+- **background image remover**: remove backgrounds from photos and product images 100% locally in your browser using local webassembly vision models.
 - **top navigation & single-column layout**: clean sticky top header with quick tool request links, github repository shortcut, and theme toggle.
 - **search & empty state feedback**: instant filtering with clear no-results feedback and direct request links.
 - **favorites & pinned tools**: star your favorite tools to pin them to the top of your dashboard or filter them instantly using the `[★ FAVS]` tag button, with automatic session persistence.
@@ -32,6 +33,7 @@ built with a focus on modern web aesthetics, featuring:
 this project uses the following dependencies:
 - **pdf-lib**: dynamically loaded via cdn for client-side pdf modification (splitting, joining, and reconstruction)
 - **pdf.js**: dynamically loaded via cdn for client-side pdf rendering and compression
+- **imgly background removal**: dynamically loaded via cdn for 100% client-side webassembly/onnx background removal
 - **cloudconvert api**: integration used by serverless functions to convert pdf files to docx, pptx, xlsx, and png
 - **vercel serverless functions**: serverless backend endpoints used for checking url statuses and interacting with the cloudconvert api
 - **smtp2go**: api integration used by our serverless function to securely relay new tool suggestions to the maintainer's mailbox.
@@ -82,7 +84,8 @@ tinytools/
 │       ├── bulk-status.css      # url http status checker styles
 │       ├── redirect-checker.css # url redirect checker styles
 │       ├── json-to-csv.css      # json to csv converter styles
-│       └── utm-builder.css      # utm builder and verifier styles
+│       ├── csp-tool.css         # csp build & verify styles
+│       └── bg-remover.css       # background image remover styles
 ├── js/                   # javascript files
 │   ├── app.js            # main routing and search logic
 │   ├── shared/
@@ -98,6 +101,7 @@ tinytools/
 │       ├── redirect-checker.js  # url redirect checker logic
 │       ├── json-to-csv.js       # json to csv converter logic
 │       ├── utm-builder.js       # utm campaign builder logic
+│       ├── bg-remover.js        # background image remover logic
 │       └── __tests__/           # vitest unit tests
 │           ├── favorites.test.js
 │           ├── percentage.test.js
@@ -106,7 +110,8 @@ tinytools/
 │           ├── bulk-status.test.js
 │           ├── redirect-checker.test.js
 │           ├── json-to-csv.test.js
-│           └── utm-builder.test.js
+│           ├── utm-builder.test.js
+│           └── bg-remover.test.js
 └── api/                  # vercel serverless functions
     ├── cc-start.js       # start cloudconvert job
     ├── cc-status.js      # check cloudconvert status
