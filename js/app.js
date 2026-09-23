@@ -256,6 +256,8 @@ function initFavorites() {
     syncFavoritesUI(true);
 }
 
+let applyCurrentFilters = null;
+
 function syncFavoritesUI(reorder = true) {
     const cards = document.querySelectorAll('.tool-card');
     cards.forEach(card => {
@@ -277,6 +279,10 @@ function syncFavoritesUI(reorder = true) {
 
     if (reorder) {
         reorderCards();
+    }
+
+    if (typeof applyCurrentFilters === 'function') {
+        applyCurrentFilters();
     }
 
     const currentHash = (window.location.hash || '#home').replace('#', '');
@@ -333,6 +339,7 @@ function initSearch() {
         });
 
         let html = `<button class="filter-tag-btn active" data-filter="all">ALL</button>`;
+        html += `<button class="filter-tag-btn filter-tag-fav" data-filter="favorites">★ FAVS</button>`;
         sortedTags.forEach(tag => {
             html += `<button class="filter-tag-btn" data-filter="${tag.toLowerCase()}">${tag}</button>`;
         });
@@ -342,12 +349,15 @@ function initSearch() {
 
     initFilterTags();
 
+    applyCurrentFilters = applyFilters;
+
     function applyFilters() {
         const query = (dashboardSearch?.value || sidebarSearch?.value || '').toLowerCase().trim();
         const tag = activeFilterTag.toLowerCase();
         let visibleCount = 0;
 
         toolCards.forEach(card => {
+            const toolId = card.getAttribute('data-tool-id');
             const title = card.querySelector('.tool-card-title').textContent.toLowerCase();
             const desc = card.querySelector('.tool-card-desc').textContent.toLowerCase();
             const tags = card.getAttribute('data-tags').toLowerCase();
@@ -356,7 +366,15 @@ function initSearch() {
             const badgeText = card.querySelector('.tool-badge').textContent.toLowerCase().replace(/[[\]]/g, '').trim();
 
             const matchesSearch = !query || title.includes(query) || desc.includes(query) || tags.includes(query);
-            const matchesTag = tag === 'all' || badgeText === tag;
+            
+            let matchesTag = false;
+            if (tag === 'all') {
+                matchesTag = true;
+            } else if (tag === 'favorites') {
+                matchesTag = isFavorite(toolId, activeFavorites);
+            } else {
+                matchesTag = badgeText === tag;
+            }
 
             if (matchesSearch && matchesTag) {
                 card.style.display = 'flex';

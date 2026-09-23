@@ -17,7 +17,7 @@ a collection of simple client-side web tools. calculate percentages, count words
 - **utm build & verify**: build campaigns with structured url inputs or inspect existing urls to analyze parameters. categorizes traffic directly under google analytics 4 (ga4) default channel grouping rules.
 - **top navigation & single-column layout**: clean sticky top header with quick tool request links, github repository shortcut, and theme toggle.
 - **search & empty state feedback**: instant filtering with clear no-results feedback and direct request links.
-- **favorites & pinned tools**: star your favorite tools to pin them to the top of your dashboard for quick access, with automatic session persistence and cross-page synchronization.
+- **favorites & pinned tools**: star your favorite tools to pin them to the top of your dashboard or filter them instantly using the `[★ FAVS]` tag button, with automatic session persistence.
 
 ## design system
 

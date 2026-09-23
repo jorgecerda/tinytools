@@ -493,6 +493,23 @@ body {
     color: var(--bg-primary);
 }
 
+.filter-tag-btn.filter-tag-fav {
+    color: #f59e0b;
+    border-color: rgba(245, 158, 11, 0.35);
+}
+
+.filter-tag-btn.filter-tag-fav:hover {
+    border-color: #f59e0b;
+    background-color: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+}
+
+.filter-tag-btn.filter-tag-fav.active {
+    background-color: #f59e0b;
+    border-color: #f59e0b;
+    color: #000000;
+}
+
 /* Tools Grid */
 .tools-grid {
     display: grid;
