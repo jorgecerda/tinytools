@@ -167,9 +167,12 @@ async function handleRoute() {
 
     if (toolId === 'home' || !TOOLS_REGISTRY[toolId]) {
         // Show Home Dashboard
-        toolView.style.display = 'none';
-        homeView.style.display = 'block';
-        document.getElementById('nav-home').classList.add('active');
+        if (toolView) toolView.style.display = 'none';
+        if (homeView) homeView.style.display = 'block';
+        const navHome = document.getElementById('nav-home');
+        if (navHome) {
+            navHome.classList.add('active');
+        }
         document.title = 'tinytools | Fast, lightweight utilities';
     } else {
         // Load Selected Tool
@@ -363,12 +366,12 @@ function initSearch() {
 
         toolCards.forEach(card => {
             const toolId = card.getAttribute('data-tool-id');
-            const title = card.querySelector('.tool-card-title').textContent.toLowerCase();
-            const desc = card.querySelector('.tool-card-desc').textContent.toLowerCase();
-            const tags = card.getAttribute('data-tags').toLowerCase();
+            const title = card.querySelector('.tool-card-title')?.textContent?.toLowerCase() || '';
+            const desc = card.querySelector('.tool-card-desc')?.textContent?.toLowerCase() || '';
+            const tags = (card.getAttribute('data-tags') || '').toLowerCase();
             
             // Extract badge text safely, removing any brackets if they exist
-            const badgeText = card.querySelector('.tool-badge').textContent.toLowerCase().replace(/[[\]]/g, '').trim();
+            const badgeText = card.querySelector('.tool-badge')?.textContent?.toLowerCase().replace(/[[\]]/g, '').trim() || '';
 
             const matchesSearch = !query || title.includes(query) || desc.includes(query) || tags.includes(query);
             
